@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>szukanie lokalizacji</title>
+</head>
+
+<body>
+    <div id="btnFindMe">
+        <button id="findMe">Znajdź moje położenie</button>
+    </div>
+    <div id="mojaLokacja"></div>
+
+    <script>
+        'use strict'
+
+        function init() {
+            var btnFindMe = document.getElementById("findMe");
+            btnFindMe.addEventListener("click", findMe, false);
+        }
+
+        function geoSuccess(position) {
+            var dateDisplay = new Date(position.timestamp);
+            var mojaLokacja = document.getElementById("mojaLokacja");
+
+            mojaLokacja.innerHTML = 'Szerokość geograficzna: ' + position.coords.latitude + '<br>' +
+                'Długość geograficzna: ' + position.coords.longitude + '<br>' +
+                'dokladność: ' + position.coords.altitude + '<br>' +
+                'wysokość(opcja): ' + position.coords.accuracy + '<br>' +
+                'dokładność wysokości (opcja): ' + position.coords.altitudeAccuracy + '<br>' +
+                'kierunek (opcja): ' + position.coords.heading + '<br>' +
+                'prędkość (opcja): ' + position.coords.speed + '<br>' +
+                'pozycja DOM TimpeStamp: ' + position.timestamp + '<br>' +
+                'data i czas: ' + dateDisplay.toLocaleString();
+        }
+
+        function findMe() {
+            var mojaLokacja = document.getElementById("mojaLokacja");
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(geoSuccess);
+                mojaLokacja.innerHTML = 'uzyskiwanie informacji o położeniu.....'
+            } else {
+                mojaLokacja.innerHTML = 'API Geolocation nie jest obsługiwane'
+            }
+        }
+
+        window.addEventListener('load', init, false)
+    </script>
+</body>
+
+</html>
